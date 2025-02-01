@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int main() {
+    // Defining the Car struct directly in the main function
+    struct Car {
+        string make;
+        string model;
+        int year;
+        double pricePerDay;  // Rental price per day
+    };
+
+    // Initialize the list of available cars
+    vector<Car> cars = {
+        {"Toyota", "Camry", 2020, 40.0},
+        {"Honda", "Civic", 2019, 35.0},
+        {"Ford", "Mustang", 2021, 60.0},
+        {"Chevrolet", "Malibu", 2018, 30.0}
+    };
+
+    int choice;
+    while (true) {
+        cout << "\nWelcome to the Rental Car Booking System!" << endl;
+        cout << "1. View available cars" << endl;
+        cout << "2. Rent a car" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            // Display available cars
+            if (cars.empty()) {
+                cout << "No cars available for rent." << endl;
+            } else {
+                cout << "Available Cars for Rent:" << endl;
+                for (int i = 0; i < cars.size(); i++) {
+                    cout << i + 1 << ". " << cars[i].make << " " << cars[i].model << " (" << cars[i].year << ")" << endl;
+                    cout << "Price per day: $" << cars[i].pricePerDay << endl;
+                }
+            }
+        } else if (choice == 2) {
+            // Rent a car
+            if (cars.empty()) {
+                cout << "No cars available for rent." << endl;
+            } else {
+                int carChoice;
+                cout << "Enter the car number you want to rent: ";
+                cin >> carChoice;
+
+                if (carChoice < 1 || carChoice > cars.size()) {
+                    cout << "Invalid car choice!" << endl;
+                } else {
+                    int rentalDays;
+                    cout << "Enter the number of days you want to rent the car: ";
+                    cin >> rentalDays;
+
+                    // Calculate total rental cost
+                    double totalCost = cars[carChoice - 1].pricePerDay * rentalDays;
+                    cout << "You have rented the " << cars[carChoice - 1].make << " " << cars[carChoice - 1].model
+                         << " for " << rentalDays << " days." << endl;
+                    cout << "Total rental cost: $" << totalCost << endl;
+
+                    // Remove the rented car from the available list
+                    cars.erase(cars.begin() + carChoice - 1);
+                }
+            }
+        } else if (choice == 3) {
+            // Exit the system
+            cout << "Thank you for using the Rental Car System. Goodbye!" << endl;
+            break;
+        } else {
+            cout << "Invalid choice, please try again." << endl;
+        }
+    }
+
+    return 0;
+}
